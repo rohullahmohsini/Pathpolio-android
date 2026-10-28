@@ -29,6 +29,17 @@ jobs:
       - name: Extract Android project
         run: unzip -o Pathfolio_Android_Native_Source.zip
 
+      - name: Fix Kotlin duplicate classes
+        run: |
+          echo "" >> Pathfolio_Android_Native/app/build.gradle
+          echo "configurations.configureEach {" >> Pathfolio_Android_Native/app/build.gradle
+          echo "    resolutionStrategy {" >> Pathfolio_Android_Native/app/build.gradle
+          echo "        force 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'" >> Pathfolio_Android_Native/app/build.gradle
+          echo "        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.22'" >> Pathfolio_Android_Native/app/build.gradle
+          echo "        force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.22'" >> Pathfolio_Android_Native/app/build.gradle
+          echo "    }" >> Pathfolio_Android_Native/app/build.gradle
+          echo "}" >> Pathfolio_Android_Native/app/build.gradle
+
       - name: Build debug APK
         run: gradle -p Pathfolio_Android_Native assembleDebug --console=plain
 
